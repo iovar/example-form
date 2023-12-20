@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta name="HandheldFriendly" content="true">
+
+    <title>Example Form</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <test-bricks level:="0" ></test-bricks>
+
+    <template id="global-styles">
+        <style>
+            :not(:defined) { display: none }
+
+            :root, body {
+                --fg-col: #55718a;
+                --bg-col: #e1f8f7;
+
+                background: var(--bg-col);
+                color: var(--fg-col);
+
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            * { box-sizing: border-box; }
+
+        </style>
+    </template>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+    <script>
+        document.getElementById('global-styles').content.querySelectorAll('style').forEach((node) => {
+            const styleSheet = new CSSStyleSheet();
+            styleSheet.replaceSync(node.innerText);
+            document.adoptedStyleSheets = [...document.adoptedStyleSheets, styleSheet];
+        });
+    </script>
+    <script type="module" src="src/main.js"></script>
+    <script type="module" src="src/components/ExampleForm.js"></script>
+</body>
+</html>
