@@ -8,12 +8,29 @@ const getStyles = () => (`
     }
 
     .container {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        min-height: 20px;
+        border-radius: var(--border-radius);
+        border: 2px solid var(--fg-col);
     }
 `);
 //    </style>
 
 const getTemplate = (values) => (`
     <section class="container">
+        <slot name="header"></slot>
+        <form>
+            <label for="test">Test</label>
+            <input type="text" id="test" name="test" value="${values.test}">
+        </form>
     </section>
 `);
 

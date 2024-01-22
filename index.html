@@ -7,7 +7,9 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <test-bricks level:="0" ></test-bricks>
+    <example-form>
+        <h2 slot="header">Example Form</h2>
+    </example-form>
 
     <template id="global-styles">
         <style>
@@ -16,6 +18,7 @@
             :root, body {
                 --fg-col: #55718a;
                 --bg-col: #e1f8f7;
+                --border-radius: 4px;
 
                 background: var(--bg-col);
                 color: var(--fg-col);
@@ -43,6 +46,5 @@
         });
     </script>
     <script type="module" src="src/main.js"></script>
-    <script type="module" src="src/components/ExampleForm.js"></script>
 </body>
 </html>
