@@ -1,3 +1,7 @@
 1. Test a form that submits and shows the json that was passed
-2. Test nested objects, array items, files
-3.
+2. Form add array lines dynamically (from multi select)
+3. Form add object attributes dynamically
+4. Add recursive object/array prop handling
+5. check edge cases like multi select
+6. test files
+7. Create custom select component
