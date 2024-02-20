@@ -7,11 +7,7 @@ const getStyles = () => (`
     :host {
     }
 
-    .container {
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-    }
+    .container { width: 100%; }
 
     form {
         display: flex;
@@ -99,7 +95,7 @@ const addKeyMutate = (obj, key, value) => {
 };
 
 export class ExampleForm extends HTMLElement {
-    static observedAttributes = ['test:'];
+    static observedAttributes = ['test:', 'onsubmit'];
 
     #values = {
         form: { test: 'test' },
@@ -138,11 +134,8 @@ export class ExampleForm extends HTMLElement {
             addKeyMutate(values, elements[i].name, currentValue);
         }
 
-        console.log(values, elements);
+        this.dispatchEvent(new CustomEvent('submit', { detail: values }));
     }
 }
 
-if (!customElements.get('example-form')) {
-    customElements.define('example-form', ExampleForm);
-}
 // </script>
