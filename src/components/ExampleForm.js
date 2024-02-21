@@ -1,5 +1,6 @@
 // vi: ft=html
 import { updateDom } from '../lib/dom.js';
+import { addKeyMutate, getFormValue } from '../lib/form.js';
 import { proxify } from '../lib/proxy.js';
 
  //   <style>
@@ -26,11 +27,11 @@ const getTemplate = (values) => (`
         <form onsubmit="this.getRootNode().host.submit(event, this)">
             <label>
                 Test
-                <input type="text" name="test" value="${values.form.test}">
+                <input type="text" name="test" value="${getFormValue(values.form, 'test', '')}">
             </label>
             <label>
                 nested A
-                <input type="text" name="nested.a">
+                <input type="text" name="nested.a" value="${getFormValue(values.form, 'nested.a', '')}">
             </label>
             <label>
                 nested B
@@ -71,35 +72,10 @@ const getTemplate = (values) => (`
 const styleSheet = new CSSStyleSheet();
 styleSheet.replaceSync(getStyles());
 
-const addKeyMutate = (obj, key, value) => {
-    const isArray = key.match(/\[[0-9]+\]$/);
-    const isObject = key.match(/\.[a-z]+$/);
-
-    if (isArray) {
-        const arrayKey = key.replace(/\[[0-9]+\]$/, '');
-        const arrayIndex = key.match(/\[([0-9]+)\]$/)[1];
-        if (!obj[arrayKey]) {
-            obj[arrayKey] = [];
-        }
-        obj[arrayKey][arrayIndex] = value;
-    } else if (isObject) {
-        const objectKey = key.replace(/\.[a-z]+$/, '');
-        const objectSubKey = key.match(/\.[a-z]+$/)[0].replace(/^\./, '');
-        if (!obj[objectKey]) {
-            obj[objectKey] = {};
-        }
-        obj[objectKey][objectSubKey] = value;
-    } else {
-        obj[key] = value;
-    }
-};
-
 export class ExampleForm extends HTMLElement {
-    static observedAttributes = ['test:', 'onsubmit'];
+    static observedAttributes = ['form:', 'onformsubmit'];
 
-    #values = {
-        form: { test: 'test' },
-    }
+    #values = { form: {} }
 
     constructor() {
         super();
@@ -114,6 +90,7 @@ export class ExampleForm extends HTMLElement {
 
     attributeChangedCallback(attr, oldValue, newValue) {
         this.#values[attr] = newValue;
+        console.log(this.#values);
     }
 
     render() {
@@ -122,6 +99,7 @@ export class ExampleForm extends HTMLElement {
 
     submit(event, form) {
         event.preventDefault();
+
         const elements= event.currentTarget.elements;
         const values = {};
         for (let i = 0; i < elements.length; i++) {
@@ -134,7 +112,7 @@ export class ExampleForm extends HTMLElement {
             addKeyMutate(values, elements[i].name, currentValue);
         }
 
-        this.dispatchEvent(new CustomEvent('submit', { detail: values }));
+        this.dispatchEvent(new CustomEvent('formsubmit', { detail: values }));
     }
 }
 

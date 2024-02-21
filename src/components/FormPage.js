@@ -15,7 +15,7 @@ const getStyles = () => (`
 
 const getTemplate = (values) => (`
     <section class="container">
-        <example-form onsubmit="onSubmit">
+        <example-form form:='${JSON.stringify(values.form)}' onformsubmit="onSubmit">
             <h2 slot="header">Example Form</h2>
         </example-form>
         <slot name="results-header"></slot>
@@ -50,7 +50,6 @@ export class FormPage extends HTMLElement {
     }
 
     onSubmit(event) {
-        console.log('onSubmit', event);
         this.#values.form = event.detail;
         this.#values.formatted = JSON.stringify(event.detail, null, 2);
     }
