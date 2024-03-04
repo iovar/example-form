@@ -45,6 +45,14 @@
             document.adoptedStyleSheets = [...document.adoptedStyleSheets, styleSheet];
         });
     </script>
+    <script type="importmap">
+        {
+            "imports": {
+                "components/": "/src/components/",
+                "lib/": "/src/lib/"
+            }
+        }
+    </script>
     <script type="module" src="src/main.js"></script>
 </body>
 </html>

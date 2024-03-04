@@ -1,7 +1,7 @@
 // vi: ft=html
-import { updateDom } from '../lib/dom.js';
-import { addKeyMutate, getFormValue } from '../lib/form.js';
-import { proxify } from '../lib/proxy.js';
+import { updateDom } from 'lib/dom.js';
+import { addKeyMutate, getFormValue } from 'lib/form.js';
+import { proxify } from 'lib/proxy.js';
 
  //   <style>
 const getStyles = () => (`
@@ -35,17 +35,30 @@ const getTemplate = (values) => (`
             </label>
             <label>
                 nested B
-                <input type="text" name="nested.b">
+                <input required type="text" minlength="4" name="nested.b">
+            </label>
+            <label>
+                nested C
+                <input type="email" name="nested.c">
+            </label>
+            <label>
+                nested D
+                <input type="url" name="nested.d">
             </label>
 
             <label>
                 Array [0]
-                <input type="text" name="array[0]">
+                <input type="text" pattern="ab[cd]" name="array[0]">
             </label>
 
             <label>
                 Array [1]
                 <input type="text" name="array[1]">
+            </label>
+
+            <label>
+                Array [2]
+                <input type="number" step="3" min="10" max="20" name="array[2]">
             </label>
 
             <label>
