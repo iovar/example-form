@@ -1,6 +1,6 @@
 // vi: ft=html
 import { updateDom } from 'lib/dom.js';
-import { addKeyMutate, getFormValue } from 'lib/form.js';
+import { formToObject, getFormValue } from 'lib/form.js';
 import { proxify } from 'lib/proxy.js';
 
  //   <style>
@@ -17,6 +17,14 @@ const getStyles = () => (`
         min-height: 20px;
         border-radius: var(--border-radius);
         border: 2px solid var(--fg-col);
+    }
+
+    :invalid {
+        border-color: red;
+    }
+
+    :valid {
+        border-color: green;
     }
 `);
 //    </style>
@@ -35,7 +43,7 @@ const getTemplate = (values) => (`
             </label>
             <label>
                 nested B
-                <input required type="text" minlength="4" name="nested.b">
+                <input disabled required type="text" minlength="4" name="nested.b">
             </label>
             <label>
                 nested C
@@ -48,7 +56,7 @@ const getTemplate = (values) => (`
 
             <label>
                 Array [0]
-                <input type="text" pattern="ab[cd]" name="array[0]">
+                <input disabled type="text" pattern="ab[cd]" name="array[0]">
             </label>
 
             <label>
@@ -59,6 +67,11 @@ const getTemplate = (values) => (`
             <label>
                 Array [2]
                 <input type="number" step="3" min="10" max="20" name="array[2]">
+            </label>
+
+            <label>
+                Array [2] out
+                <output name="result" for="array[2]">
             </label>
 
             <label>
@@ -103,7 +116,6 @@ export class ExampleForm extends HTMLElement {
 
     attributeChangedCallback(attr, oldValue, newValue) {
         this.#values[attr] = newValue;
-        console.log(this.#values);
     }
 
     render() {
@@ -112,19 +124,7 @@ export class ExampleForm extends HTMLElement {
 
     submit(event, form) {
         event.preventDefault();
-
-        const elements= event.currentTarget.elements;
-        const values = {};
-        for (let i = 0; i < elements.length; i++) {
-            const isMultiSelect = elements[i].tagName === 'SELECT' && elements[i].multiple;
-
-            let currentValue = isMultiSelect
-                ? Array.from(elements[i].selectedOptions).map((v) => v.value)
-                : elements[i].value;
-
-            addKeyMutate(values, elements[i].name, currentValue);
-        }
-
+        const values = formToObject(form);
         this.dispatchEvent(new CustomEvent('formsubmit', { detail: values }));
     }
 }
