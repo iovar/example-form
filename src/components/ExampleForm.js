@@ -10,7 +10,7 @@ const getStyles = () => (`
 
     .container { width: 100%; }
 
-    form {
+    form, fieldset {
         display: flex;
         flex-direction: column;
         padding: 20px;
@@ -37,42 +37,43 @@ const getTemplate = (values) => (`
                 Test
                 <input type="text" name="test" value="${getFormValue(values.form, 'test', '')}">
             </label>
-            <label>
-                nested A
-                <input type="text" name="nested.a" value="${getFormValue(values.form, 'nested.a', '')}">
-            </label>
-            <label>
-                nested B
-                <input disabled required type="text" minlength="4" name="nested.b">
-            </label>
-            <label>
-                nested C
-                <input type="email" name="nested.c">
-            </label>
-            <label>
-                nested D
-                <input type="url" name="nested.d">
-            </label>
+            <fieldset >
+                <legend>Nested</legend>
+                <label>
+                    nested A
+                    <input type="text" name="nested.a" value="${getFormValue(values.form, 'nested.a', '')}">
+                </label>
+                <label>
+                    nested B
+                    <input disabled required type="text" minlength="4" name="nested.b" value="${getFormValue(values.form, 'nested.b', '')}">
+                </label>
+                <label>
+                    nested C
+                    <input type="email" name="nested.c" value="${getFormValue(values.form, 'nested.c', '')}">
+                </label>
+                <label>
+                    nested D
+                    <input type="url" name="nested.d">
+                </label>
+            </fieldset>
 
-            <label>
-                Array [0]
-                <input disabled type="text" pattern="ab[cd]" name="array[0]">
-            </label>
+            <fieldset>
+                <legend>Array element</legend>
+                <label>
+                    Array [0]
+                    <input disabled type="text" pattern="ab[cd]" name="array[0]">
+                </label>
 
-            <label>
-                Array [1]
-                <input type="text" name="array[1]">
-            </label>
+                <label>
+                    Array [1]
+                    <input type="text" name="array[1]">
+                </label>
 
-            <label>
-                Array [2]
-                <input type="number" step="3" min="10" max="20" name="array[2]">
-            </label>
-
-            <label>
-                Array [2] out
-                <output name="result" for="array[2]">
-            </label>
+                <label>
+                    Array [2]
+                    <input type="number" step="3" min="10" max="20" name="array[2]">
+                </label>
+            </fieldset>
 
             <label>
                 Multi Select

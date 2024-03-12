@@ -9,39 +9,35 @@ export const getFormValue = (form, name, defaultValue) => {
     return form[name] ?? defaultValue;
 };
 
-const arrayRegex = /\[([0-9]+)\]/;
-const objectRegex = /\.[a-z]+$/;
+const deepSet = (obj, key, value) => {
+    const path = key.split(/(\[[^\]]+\])|\./g).filter(s => !!s);
+    console.log('path', path, key);
 
-export const addKeyMutate = (obj, key, value) => {
-    const isArray = key.match(arrayRegex);
-    const isObject = key.match(objectRegex);
-
-    if (isArray) {
-        const arrayKey = key.replace(arrayRegex, '');
-        const arrayIndex = key.match(arrayRegex)[1];
-        obj[arrayKey] = obj[arrayKey] ?? [];
-        obj[arrayKey][arrayIndex] = value;
-    } else if (isObject) {
-        const objectKey = key.replace(objectRegex, '');
-        const objectSubKey = key.match(objectRegex)[0].replace(/^\./, '');
-        obj[objectKey] = obj[objectKey] ?? {};
-        obj[objectKey][objectSubKey] = value;
-    } else {
-        obj[key] = value;
+    if (path.length === 1) {
+        obj[path] = value;
+    } else if (path.length > 1 && path[1].startsWith('[') && path[1].endsWith(']')) {
+        obj[path[0]] = obj[path[0]] ?? [];
+        obj[path[0]][path[1].slice(1, -1)] = value;
+        return;
+    } else if (path.length > 1) {
+        obj[path[0]] = obj[path[0]] ?? {};
+        deepSet(obj[path[0]], path.slice(1).join('.'), value);
     }
-};
+}
 
 export const formToObject = (form) => {
     const formData = new FormData(form);
     const values = {};
 
     for (const [key, value] of formData.entries()) {
-        if (values[key] === undefined) {
-            addKeyMutate(values, key, value);
-        } else if (Array.isArray(values[key])) {
-            values[key].push(value);
+        if (values[key]) {
+            if (Array.isArray(values[key])) {
+                values[key].push(value);
+            } else {
+                values[key] = [values[key], value];
+            }
         } else {
-            values[key] = [values[key], value];
+            deepSet(values, key, value);
         }
     }
 

@@ -1,6 +1,6 @@
-Example Form with WebComponents
+Example Form
 ==========
 
-Testing forms with custom elements, in particular testing how custom form inputs work in this case
+Testing some aspects of using vanilla forms, or with custom elements
 
 Test [here](https://iovar.github.io/example-form/)

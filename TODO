@@ -1,7 +1,5 @@
-1. Test a form that submits and shows the json that was passed
-2. Form add array lines dynamically (from multi select)
-3. Form add object attributes dynamically
-4. Add recursive object/array prop handling
-5. check edge cases like multi select
-6. test files
-7. Create custom select component
+1. Complete recursive conversion of form to JSON
+2. Try some more inputs
+3. Read back values from JSON
+4. Add a select that accepts options and renders correctly, also with multi, min/max, label renderer function
+
