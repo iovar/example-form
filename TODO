@@ -1,5 +1,7 @@
-1. Complete recursive conversion of form to JSON
-2. Try some more inputs
-3. Read back values from JSON
-4. Add a select that accepts options and renders correctly, also with multi, min/max, label renderer function
+1. Read back values from JSON (getFormValue, updateForm)
+2. Add a couple of date inputs:
+    https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
+    (datetime-local, month, week, time)
+2. Add Multiselect
+3. Clean up lib code
 

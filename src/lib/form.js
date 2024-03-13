@@ -11,7 +11,6 @@ export const getFormValue = (form, name, defaultValue) => {
 
 const deepSet = (obj, key, value) => {
     const path = key.split(/(\[[^\]]+\])|\./g).filter(s => !!s);
-    console.log('path', path, key);
 
     if (path.length === 1) {
         obj[path] = value;
@@ -42,4 +41,15 @@ export const formToObject = (form) => {
     }
 
     return values;
+}
+
+export const updateForm = (form, formData) => {
+    const formElements = Array.from(form.elements);
+
+    // TODO fix for multi select, array values, initial undefined
+    formElements.forEach((element) => {
+        if (element.name) {
+            element.value = getFormValue(formData, element.name);
+        }
+    });
 }

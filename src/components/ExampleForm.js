@@ -1,6 +1,6 @@
 // vi: ft=html
 import { updateDom } from 'lib/dom.js';
-import { formToObject, getFormValue } from 'lib/form.js';
+import { formToObject, getFormValue, updateForm } from 'lib/form.js';
 import { proxify } from 'lib/proxy.js';
 
  //   <style>
@@ -19,12 +19,25 @@ const getStyles = () => (`
         border: 2px solid var(--fg-col);
     }
 
-    :invalid {
+    label {
+        padding: 2px 0;
+    }
+
+    fieldset {
+        margin: 10px 0;
+    }
+
+    :user-invalid {
         border-color: red;
     }
 
-    :valid {
+    :user-valid {
         border-color: green;
+    }
+
+    :where(label, legend) {
+        font-weight: medium;
+        /* font-family: fantasy; */
     }
 `);
 //    </style>
@@ -35,21 +48,21 @@ const getTemplate = (values) => (`
         <form onsubmit="this.getRootNode().host.submit(event, this)">
             <label>
                 Test
-                <input type="text" name="test" value="${getFormValue(values.form, 'test', '')}">
+                <input type="text" name="test">
             </label>
             <fieldset >
                 <legend>Nested</legend>
                 <label>
                     nested A
-                    <input type="text" name="nested.a" value="${getFormValue(values.form, 'nested.a', '')}">
+                    <input type="text" name="nested.a">
                 </label>
                 <label>
                     nested B
-                    <input disabled required type="text" minlength="4" name="nested.b" value="${getFormValue(values.form, 'nested.b', '')}">
+                    <input disabled required type="text" minlength="4" name="nested.b">
                 </label>
                 <label>
                     nested C
-                    <input type="email" name="nested.c" value="${getFormValue(values.form, 'nested.c', '')}">
+                    <input type="email" name="nested.c">
                 </label>
                 <label>
                     nested D
@@ -121,6 +134,8 @@ export class ExampleForm extends HTMLElement {
 
     render() {
         updateDom(this.shadowRoot, getTemplate(this.#values));
+        const form = this.shadowRoot.querySelector('form');
+        updateForm(form, this.#values.form);
     }
 
     submit(event, form) {
