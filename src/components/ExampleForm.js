@@ -1,6 +1,6 @@
 // vi: ft=html
 import { updateDom } from 'lib/dom.js';
-import { formToObject, getFormValue, updateForm } from 'lib/form.js';
+import { formToObject, updateForm } from 'lib/form.js';
 import { proxify } from 'lib/proxy.js';
 
  //   <style>

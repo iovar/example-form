@@ -49,7 +49,9 @@ export const updateForm = (form, formData) => {
     // TODO fix for multi select, array values, initial undefined
     formElements.forEach((element) => {
         if (element.name) {
-            element.value = getFormValue(formData, element.name);
+            const value = getFormValue(formData, element.name);
+            console.log({ value, name: element.name }, formData);
+            element.value = value ?? '';
         }
     });
 }
